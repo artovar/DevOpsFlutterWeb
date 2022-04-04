@@ -12,8 +12,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  analyzer:
+    name: Run Code Metrics
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+      - run: flutter pub run dart_code_metrics:metrics --reporter=github lib
+
   unit_test:
     name: Unit Test Job
+    needs: [analyzer]
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +36,7 @@ jobs:
 
   ui_test:
     name: UI Test Job
+    needs: [analyzer]
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +49,8 @@ jobs:
       - run: flutter test test/ui_test
 
   integration_test:
-    name: UI Test Job
+    name: Integration Test Job
+    needs: [analyzer]
     runs-on: ubuntu-latest
 
     steps:

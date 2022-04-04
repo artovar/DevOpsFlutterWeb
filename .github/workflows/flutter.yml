@@ -3,30 +3,29 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Dart
+name: Flutter CI
 
 on:
   push:
-    branches: [ master ]
-  
+    branches: [master]
+
   workflow_dispatch:
-  
-    
 
 jobs:
   build:
-      name: Test and Builds flutter project
-      runs-on: ubuntu-latest
+    name: Test and Builds flutter project
+    runs-on: ubuntu-latest
 
-      steps:
-        - uses: actions/checkout@v2
-        - uses: subosito/flutter-action@v2
-          with:
-            flutter-version: '2.5.3'
-        - run: flutter pub get
-        - run: flutter test
-        - run: flutter build web
-        
-          
-      
-
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - name: Loading dependencies...
+      - run: flutter pub get
+      - name: Analyzing project
+      - run: flutter analyze
+      - name: Running test
+      - run: flutter test
+      - name: Building flutter web app
+      - run: flutter build web

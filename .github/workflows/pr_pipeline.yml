@@ -1,15 +1,14 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 
-name: Flutter CI/CD
+# This workflow activates every time a Pull-Request its open or reopened
+# This workflow keeps commits from having quality issues, test and build failures.
+
+
+
+name: PR Analyzer
 
 on:
-  push:
-    branches: [master]
-
-  workflow_dispatch:
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   analyzer:
@@ -60,20 +59,6 @@ jobs:
       - run: flutter pub get
       - run: flutter test test/integration_test
 
-  # ios-build:
-  #   name: Build app (iOS)
-  #   needs: [unit_test, ui_test, integration_test]
-  #   runs-on: macos-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: subosito/flutter-action@v2
-  #       with:
-  #         channel: "stable"
-  #     - run: flutter pub get
-  #     - run: flutter clean
-  #     - run: flutter build ios
-
   android-build:
     name: Build app (Android)
     needs: [unit_test, ui_test, integration_test]
@@ -91,20 +76,6 @@ jobs:
   web-build:
     name: Build app (Web)
     needs: [unit_test, ui_test, integration_test]
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-      - run: flutter pub get
-      - run: flutter clean
-      - run: flutter build web
-
-  web-deploy:
-    name: Deploy app (Web)
-    needs: [web-build]
     runs-on: ubuntu-latest
 
     steps:

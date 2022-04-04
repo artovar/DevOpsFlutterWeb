@@ -19,17 +19,12 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-        - uses: subosito/flutter-action@v2.3.0
-        - with:
+        - uses: actions/checkout@v2
+        - uses: subosito/flutter-action@v2
+          with:
             flutter-version: '2.5.3'
-        
-        - name: Flutter analysis
-        - run: flutter analyze
-        
-        - name: Flutter test
+        - run: flutter pub get
         - run: flutter test
-                        
-        - name: Flutter build
         - run: flutter build web
         
           

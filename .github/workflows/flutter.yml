@@ -12,8 +12,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  test_build:
-    name: Test and Builds flutter project
+  unit_test:
+    name: Unit Test Job
     runs-on: ubuntu-latest
 
     steps:
@@ -23,13 +23,39 @@ jobs:
           channel: "stable"
       - run: flutter pub get
       - run: flutter analyze
-      - run: flutter test
-      
+      - run: flutter test test/unit_test
+
+  ui_test:
+    name: UI Test Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test test/ui_test
+
+  integration_test:
+    name: UI Test Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test test/integration_test
+
   ios-build:
     name: Build app (iOS)
-    needs: [test_build]
+    needs: [unit_test, ui_test, integration_test]
     runs-on: macos-latest
-    
+
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
@@ -38,12 +64,12 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build ios
-      
+
   android-build:
     name: Build app (Android)
-    needs: [test_build]
+    needs: [unit_test, ui_test, integration_test]
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
@@ -52,5 +78,31 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: flutter build appbundle
-      
-    
+
+  web-build:
+    name: Build app (Web)
+    needs: [unit_test, ui_test, integration_test]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build web
+
+  web-deploy:
+    name: Deploy app (Web)
+    needs: [web-build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter clean
+      - run: flutter build web

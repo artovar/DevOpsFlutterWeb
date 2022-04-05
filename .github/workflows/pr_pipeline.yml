@@ -5,7 +5,7 @@ name: PR Analyzer
 
 on:
   pull_request:
-    types: [opened, reopened,edited]
+    
 
 jobs:
   analyzer:

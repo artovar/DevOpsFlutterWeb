@@ -4,9 +4,6 @@
 name: Build and deploy container app to Azure Web App - flutter-web-app
 
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:

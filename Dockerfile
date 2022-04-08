@@ -31,7 +31,7 @@ RUN mkdir /app/
 COPY . /app/
 WORKDIR /app/
 RUN flutter build web
-RUN chown root:root /server/server.sh
+RUN chown root:root app/server/server.sh
 
 # Record the exposed port
 EXPOSE 5000

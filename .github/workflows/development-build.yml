@@ -1,24 +1,25 @@
-
 # This workflow activates every time a Pull-Request its open or reopened
 # This workflow keeps commits from having quality issues, test and build failures.
-
-
 
 name: PR Analyzer
 
 on:
   pull_request:
     types: [opened, reopened]
+  workflow_dispatch:
 
 jobs:
   analyzer:
-    name: Run Code Metrics
+    name: Lint Flutter Code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
       - run: flutter pub get
-      - run: flutter pub run dart_code_metrics:metrics --reporter=github lib
+      - name: Analyze Flutter
+        uses: ValentinVignal/action-dart-analyze@v0.12
+        with:
+          fail-on: "info"
 
   unit_test:
     name: Unit Test Job

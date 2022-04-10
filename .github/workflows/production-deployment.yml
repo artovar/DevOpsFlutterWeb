@@ -11,12 +11,16 @@ on:
 
 jobs:
   lint-analyzer:
-    name: Run Code Metrics
+    name: Lint Flutter Code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
       - run: flutter pub get
+      - name: Analyze Flutter
+        uses: ValentinVignal/action-dart-analyze@v0.12
+        with:
+          fail-on: "info"
   unit-test:
     name: Unit Test Job
     needs: [lint-analyzer]

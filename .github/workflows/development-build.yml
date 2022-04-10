@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  analyzer:
+  lint-analyzer:
     name: Lint Flutter Code
     runs-on: ubuntu-latest
     steps:
@@ -21,9 +21,9 @@ jobs:
         with:
           fail-on: "info"
 
-  unit_test:
+  unit-test:
     name: Unit Test Job
-    needs: [analyzer]
+    needs: [lint-analyzer]
     runs-on: ubuntu-latest
 
     steps:
@@ -34,9 +34,9 @@ jobs:
       - run: flutter pub get
       - run: flutter test test/unit_test
 
-  ui_test:
+  ui-test:
     name: UI Test Job
-    needs: [analyzer]
+    needs: [lint-analyzer]
     runs-on: ubuntu-latest
 
     steps:
@@ -47,9 +47,9 @@ jobs:
       - run: flutter pub get
       - run: flutter test test/ui_test
 
-  integration_test:
+  integration-test:
     name: Integration Test Job
-    needs: [analyzer]
+    needs: [lint-analyzer]
     runs-on: ubuntu-latest
 
     steps:
@@ -62,7 +62,7 @@ jobs:
 
   android-build:
     name: Build app (Android)
-    needs: [unit_test, ui_test, integration_test]
+    needs: [unit-test, ui-test, integration-test]
     runs-on: ubuntu-latest
 
     steps:
@@ -76,7 +76,7 @@ jobs:
 
   web-build:
     name: Build app (Web)
-    needs: [unit_test, ui_test, integration_test]
+    needs: [unit-test, ui-test, integration-test]
     runs-on: ubuntu-latest
 
     steps:

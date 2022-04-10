@@ -19,7 +19,7 @@ jobs:
       - run: flutter pub get
   unit-test:
     name: Unit Test Job
-    needs: [analyzer]
+    needs: [lint-analyzer]
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
 
   ui-test:
     name: UI Test Job
-    needs: [analyzer]
+    needs: [lint-analyzer]
     runs-on: ubuntu-latest
 
     steps:
@@ -45,7 +45,7 @@ jobs:
 
   integration-test:
     name: Integration Test Job
-    needs: [analyzer]
+    needs: [lint-analyzer]
     runs-on: ubuntu-latest
 
     steps:

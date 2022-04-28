@@ -61,7 +61,7 @@ jobs:
           channel: "stable"
       - run: flutter pub get
       - run: flutter test test/integration_test --coverage
-      - uses: codecov/codecov-action@v2h
+      - uses: codecov/codecov-action@v2
 
   android-build:
     name: Build app (Android)

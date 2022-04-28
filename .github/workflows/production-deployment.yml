@@ -32,7 +32,8 @@ jobs:
         with:
           channel: "stable"
       - run: flutter pub get
-      - run: flutter test test/unit_test
+      - run: flutter test test/unit_test --coverage
+      - run: curl -s https://codecov.io/bash
 
   ui-test:
     name: UI Test Job
@@ -45,7 +46,8 @@ jobs:
         with:
           channel: "stable"
       - run: flutter pub get
-      - run: flutter test test/ui_test
+      - run: flutter test test/ui_test  --coverage
+      - run: curl -s https://codecov.io/bash
 
   integration-test:
     name: Integration Test Job
@@ -58,7 +60,8 @@ jobs:
         with:
           channel: "stable"
       - run: flutter pub get
-      - run: flutter test test/integration_test
+      - run: flutter test test/integration_test --coverage
+      - run: curl -s https://codecov.io/bash
 
   android-build:
     name: Build app (Android)
